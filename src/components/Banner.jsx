@@ -70,7 +70,7 @@ const Banner = () => {
   return (
     <section className="w-full flex flex-col items-center" id="home">
       <div className="">
-        <h1 className="text-3xl mb-5 font-semibold">👋Hi, I'm Arsal Nawfal!</h1>
+        <h1 className="text-3xl mb-5 font-semibold">👋Hi, I'm M. Arsal Nawfal Ali!</h1>
         <h2 className="text-[16px] text-justify opacity-70 font-light">
           Recent graduate with a solid understanding of front-end development
           and a passion for creating engaging web experiences. I bring hands-on
