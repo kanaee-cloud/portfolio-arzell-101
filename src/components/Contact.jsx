@@ -111,7 +111,6 @@ const Contact = () => {
       </div>
       <div className="mt-5 w-full grid grid-cols-2 md:grid-cols-3 justify-center gap-4">
         {social.map((item, index) => {
-          const isGradient = item.bgColor.includes("gradient");
           return (
             <a
               key={index}

@@ -24,7 +24,6 @@ const ResponsiveNavbar = () => {
     { id: 3, name: "Certificate", icon: <TbCertificate size={22} />, link: "/certificate" },
     { id: 4, name: "Project", icon: <RiGitRepositoryLine size={22} />, link: "/work" },
     { id: 5, name: "Contact", icon: <MdContacts size={22} />, link: "/contact" },
-    { id: 6, name: "Bot", icon: <LuBot size={22} />, link: "/bot" },
   ];
 
   useEffect(() => {
@@ -68,7 +67,7 @@ const ResponsiveNavbar = () => {
   // Desktop Sidebar
   if (!isMobile) {
     return (
-      <nav className="relative glassmorphism h-full lg:w-60 rounded-2xl flex flex-col justify-between p-4 shadow-lg">
+      <nav className="relative sidebar-glass h-full lg:w-60 flex flex-col justify-between p-4 shadow-lg">
         <ul>
           <img
             src="/assets/rei.jpg"
@@ -91,7 +90,7 @@ const ResponsiveNavbar = () => {
                 2000,
                 "Front-end Developer",
                 2000,
-                "UI/UX Designer",
+                "Software Engineer",
                 2000,
                 "Weebs",
                 2000,
@@ -108,7 +107,7 @@ const ResponsiveNavbar = () => {
               key={item.id}
               className={`flex items-center gap-x-2 px-4 py-3 rounded-md cursor-pointer transition-all duration-300 ${
                 isActive(item.link)
-                  ? "bg-black/30 text-white"
+                  ? "bg-light text-black"
                   : "hover:bg-black/15 text-white/70 hover:text-white"
               }`}
             >

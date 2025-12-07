@@ -1,6 +1,6 @@
 import { FaTerminal } from "react-icons/fa";
 import { IoIosStats } from "react-icons/io";
-import { EffectCoverflow, Pagination, Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
 import { fadeIn } from "../variants";
@@ -50,7 +50,7 @@ const frameworks = [
     name: "Express.js",
     url: "https://expressjs.com/",
     imagesUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png",
+      "https://cdn.worldvectorlogo.com/logos/expressjs.svg",
   },
   {
     name: "Vite",
@@ -68,7 +68,7 @@ const frameworks = [
 
 const Banner = () => {
   return (
-    <section className="w-full flex flex-col items-center" id="home">
+    <section className="w-full max-w-4xl flex flex-col items-center" id="home">
       <div className="">
         <h1 className="text-3xl mb-5 font-semibold">👋Hi, I'm M. Arsal Nawfal Ali!</h1>
         <h2 className="text-[16px] text-justify opacity-70 font-light">
@@ -146,7 +146,7 @@ const Banner = () => {
             <SwiperSlide
               key={index}
               className="w-56 flex items-center justify-center"
-              style={{ width: "220px" }} // pastikan lebar tetap
+              style={{ width: "220px" }}
             >
               <div className="glassmorphism bg-slate-800 bg-opacity-40 hover:bg-slate-700 transition-all duration-300 p-6 rounded-xl flex flex-col items-center justify-center w-40 h-40">
                 <div className="h-24 w-24 flex items-center justify-center">
