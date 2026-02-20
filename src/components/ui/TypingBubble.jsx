@@ -1,11 +1,9 @@
-import { BsDot } from "react-icons/bs";
-
 const TypingBubble = () => {
   return (
-    <div className="message bot flex items-center gap-1">
-      <span className="animate-bounce delay-[0ms]"><BsDot size={28} /></span>
-      <span className="animate-bounce delay-[150ms]"><BsDot size={28} /></span>
-      <span className="animate-bounce delay-[300ms]"><BsDot size={28} /></span>
+    <div className="flex items-center gap-1.5 py-1 px-1">
+      <span className="w-2 h-2 rounded-full bg-label-tertiary animate-bounce" style={{ animationDelay: '0ms' }} />
+      <span className="w-2 h-2 rounded-full bg-label-tertiary animate-bounce" style={{ animationDelay: '150ms' }} />
+      <span className="w-2 h-2 rounded-full bg-label-tertiary animate-bounce" style={{ animationDelay: '300ms' }} />
     </div>
   );
 };

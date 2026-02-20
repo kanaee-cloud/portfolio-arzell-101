@@ -19,68 +19,68 @@ import {
 
 const frameworkMap = {
   Laravel: {
-    icon: <SiLaravel size={14} />,
-    color: "bg-red-900 text-red-300",
+    icon: <SiLaravel size={12} />,
+    color: "bg-[#FF453A]/10 text-[#FF453A] ring-[#FF453A]/20",
   },
   MySQL: {
-    icon: <SiMysql size={14} />,
-    color: "bg-orange-900 text-orange-300",
+    icon: <SiMysql size={12} />,
+    color: "bg-[#FF9F0A]/10 text-[#FF9F0A] ring-[#FF9F0A]/20",
   },
   Bootstrap: {
-    icon: <SiBootstrap size={14} />,
-    color: "bg-indigo-900 text-indigo-300",
+    icon: <SiBootstrap size={12} />,
+    color: "bg-[#5E5CE6]/10 text-[#5E5CE6] ring-[#5E5CE6]/20",
   },
   "Vanilla JS": {
-    icon: <SiJavascript size={14} />,
-    color: "bg-yellow-600 text-yellow-100",
+    icon: <SiJavascript size={12} />,
+    color: "bg-[#FFD60A]/10 text-[#FFD60A] ring-[#FFD60A]/20",
   },
   JavaScript: {
-    icon: <SiJavascript size={14} />,
-    color: "bg-yellow-700 text-yellow-100",
+    icon: <SiJavascript size={12} />,
+    color: "bg-[#FFD60A]/10 text-[#FFD60A] ring-[#FFD60A]/20",
   },
   "Excel JS": {
-    icon: <SiMicrosoftexcel size={14} />,
-    color: "bg-green-900 text-green-300",
+    icon: <SiMicrosoftexcel size={12} />,
+    color: "bg-[#30D158]/10 text-[#30D158] ring-[#30D158]/20",
   },
   PostgreSQL: {
-    icon: <SiPostgresql size={14} />,
-    color: "bg-blue-900 text-blue-300",
+    icon: <SiPostgresql size={12} />,
+    color: "bg-[#0A84FF]/10 text-[#0A84FF] ring-[#0A84FF]/20",
   },
   "Next.js": {
-    icon: <SiNextdotjs size={14} />,
-    color: "bg-black text-white",
+    icon: <SiNextdotjs size={12} />,
+    color: "bg-white/10 text-white ring-white/20",
   },
   TypeScript: {
-    icon: <SiTypescript size={14} />,
-    color: "bg-blue-800 text-blue-200",
+    icon: <SiTypescript size={12} />,
+    color: "bg-[#0A84FF]/10 text-[#0A84FF] ring-[#0A84FF]/20",
   },
   Python: {
-    icon: <SiPython size={14} />,
-    color: "bg-yellow-700 text-yellow-100",
+    icon: <SiPython size={12} />,
+    color: "bg-[#FFD60A]/10 text-[#FFD60A] ring-[#FFD60A]/20",
   },
   Tailwind: {
-    icon: <SiTailwindcss size={14} />,
-    color: "bg-cyan-800 text-cyan-200",
+    icon: <SiTailwindcss size={12} />,
+    color: "bg-[#64D2FF]/10 text-[#64D2FF] ring-[#64D2FF]/20",
   },
   "Fast API": {
-    icon: <SiFastapi size={14} />,
-    color: "bg-green-800 text-green-200",
+    icon: <SiFastapi size={12} />,
+    color: "bg-[#30D158]/10 text-[#30D158] ring-[#30D158]/20",
   },
   "Font Awesome": {
-    icon: <SiFontawesome size={14} />,
-    color: "bg-blue-800 text-blue-200",
+    icon: <SiFontawesome size={12} />,
+    color: "bg-[#5E5CE6]/10 text-[#5E5CE6] ring-[#5E5CE6]/20",
   },
   "React.js": {
-    icon: <SiReact size={14} />,
-    color: "bg-cyan-900 text-cyan-300",
+    icon: <SiReact size={12} />,
+    color: "bg-[#64D2FF]/10 text-[#64D2FF] ring-[#64D2FF]/20",
   },
   Firebase: {
-    icon: <SiFirebase size={14} />,
-    color: "bg-amber-700 text-amber-100",
+    icon: <SiFirebase size={12} />,
+    color: "bg-[#FF9F0A]/10 text-[#FF9F0A] ring-[#FF9F0A]/20",
   },
   Axios: {
-    icon: <SiAxios size={14} />,
-    color: "bg-gray-800 text-gray-200",
+    icon: <SiAxios size={12} />,
+    color: "bg-[#BF5AF2]/10 text-[#BF5AF2] ring-[#BF5AF2]/20",
   },
 };
 
@@ -90,7 +90,7 @@ const Badge = ({ name }) => {
 
   return (
     <span
-      className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold ${framework.color}`}
+      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium ring-1 ${framework.color}`}
     >
       {framework.icon}
       {name}

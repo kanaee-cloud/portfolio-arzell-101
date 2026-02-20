@@ -1,10 +1,10 @@
-// import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { BsArrowUpRight } from "react-icons/bs";
-import { fadeIn } from "../variants";
+import { fadeIn, staggerContainer, scaleIn } from "../variants";
 import { GoProjectRoadmap } from "react-icons/go";
 import Badge from "./Badges/Badge";
-
+import Modal from "./Modal";
 
 const services = [
   {
@@ -80,74 +80,97 @@ const services = [
 ];
 
 const Services = () => {
-  // const [selectedService, setSelectedService] = useState(null);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const openModal = (service) => {
-  //   setSelectedService(service);
-  //   setIsModalOpen(true);
-  // };
+  const openModal = (project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
 
-  // const closeModal = () => {
-  //   setIsModalOpen(false);
-  // };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <section id="work">
-      <div>
-        <h1 className="text-2xl mb-5 font-semibold flex items-center gap-x-2">
-          <GoProjectRoadmap size={30} className="opacity-70" />
-          Project
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+      >
+        <h1 className="text-2xl mb-4 font-bold tracking-tight flex items-center gap-3">
+          <div className="p-2 rounded-ios bg-ios-teal/15">
+            <GoProjectRoadmap size={22} className="text-ios-teal" />
+          </div>
+          Projects
         </h1>
-        <h2 className="text-[16px] text-justify opacity-70 font-light leading-relaxed">
-          Some project i have worked.
-        </h2>
-        <hr className="opacity-30 my-5" />
-      </div>
+        <p className="text-[15px] text-label-secondary leading-relaxed">
+          Some projects I have worked on.
+        </p>
+        <div className="ios-separator" />
+      </motion.div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-1 gap-8">
+      {/* Project Grid */}
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.1 }}
+        className="grid md:grid-cols-2 gap-5"
+      >
         {services.map((service, index) => (
           <motion.div
-            variants={fadeIn("up", 0.3 * index)}
-            initial="hidden"
-            whileInView={"show"}
-            viewport={{ once: false, amount: 0.3 }}
+            variants={scaleIn(index * 0.08)}
             key={index}
-            // onClick={() => openModal(service)}
-            className="group relative glassmorphism rounded-lg overflow-hidden cursor-pointer hover:shadow-lg transition-all duration-300"
+            className="ios-card overflow-hidden group cursor-pointer"
+            onClick={() => openModal(service)}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
           >
-            <img
-              src={service.img}
-              alt={service.name}
-              className="w-full h-48 object-cover"
-            />
+            {/* Image */}
+            <div className="relative overflow-hidden">
+              <img
+                src={service.img}
+                alt={service.name}
+                className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              {/* Floating Link */}
+              <a
+                href={service.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="absolute top-3 right-3 p-2 rounded-full bg-black/40 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-ios-blue hover:scale-110"
+              >
+                <BsArrowUpRight size={14} />
+              </a>
+            </div>
+
+            {/* Content */}
             <div className="p-4">
-              <h3 className="text-xl font-semibold">{service.name}</h3>
-              <p className="text-sm opacity-70 mb-2">{service.periode}</p>
-              <p className="text-sm text-justify opacity-80 line-clamp-3">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-[16px] font-semibold text-white">{service.name}</h3>
+                <span className="text-[11px] text-label-tertiary font-medium">{service.periode}</span>
+              </div>
+              <p className="text-[13px] text-label-secondary leading-relaxed line-clamp-2 mb-3">
                 {service.description}
               </p>
-              <div className="flex flex-wrap gap-2 mt-3">
+              <div className="flex flex-wrap gap-1.5">
                 {service.frameworks.map((fw, i) => (
                   <Badge key={i} name={fw} />
                 ))}
               </div>
-              
-              <div className="absolute top-4 right-4 bg-black text-white p-1 rounded-full group-hover:scale-110 transition">
-                <a href={service.url}>
-                  <BsArrowUpRight />
-                </a>
-              </div>
             </div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      {/* <Modal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        project={selectedService}
-      /> */}
+      {/* Modal */}
+      <Modal isOpen={isModalOpen} onClose={closeModal} data={selectedProject} />
     </section>
   );
 };

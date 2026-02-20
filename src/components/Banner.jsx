@@ -1,13 +1,7 @@
 import { FaTerminal } from "react-icons/fa";
 import { IoIosStats } from "react-icons/io";
-import { Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
-import { fadeIn } from "../variants";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
+import { fadeIn, staggerContainer, scaleIn } from "../variants";
 import CountUp from "react-countup";
 
 const frameworks = [
@@ -66,103 +60,119 @@ const frameworks = [
   },
 ];
 
+const stats = [
+  { label: "Years Old", value: 18, suffix: "" },
+  { label: "Repository", value: 45, suffix: "+" },
+  { label: "Experience", value: 5, suffix: "+" },
+];
+
 const Banner = () => {
   return (
     <section className="w-full max-w-4xl flex flex-col items-center" id="home">
-      <div className="">
-        <h1 className="text-3xl mb-5 font-semibold">👋Hi, I'm M. Arsal Nawfal Ali!</h1>
-        <h2 className="text-[16px] text-justify opacity-70 font-light">
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+      >
+        <h1 className="text-3xl lg:text-4xl mb-4 font-bold tracking-tight">
+          <span className="text-label-secondary">Hi, I'm </span>
+          <span className="text-gradient-blue">M. Arsal Nawfal Ali</span>
+          <span className="ml-2 inline-block animate-float">👋</span>
+        </h1>
+        <p className="text-[15px] text-label-secondary leading-relaxed text-justify">
           Recent graduate with a solid understanding of front-end development
           and a passion for creating engaging web experiences. I bring hands-on
           experience with popular JavaScript frameworks such as React, Vue.js,
           and Next.js, allowing me to develop scalable and performant
           applications. My drive extends beyond the front end, with a growing
           interest in the diverse landscape of software engineering.
-        </h2>
-      </div>
+        </p>
+      </motion.div>
+
+      {/* Stats Section */}
       <motion.div
-        variants={fadeIn("up", 0.2)}
+        variants={fadeIn("up", 0.15)}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: false, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.3 }}
         className="w-full mt-10"
       >
         <div className="mb-8">
-          <h3 className="text-xl font-medium flex items-center gap-x-3 glassmorphism px-3 py-2">
-            <IoIosStats size={24} className="opacity-70" />
-            Personal Stats
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10 lg:gap-x-10 mb-6 mt-6">
-            <div className="flex flex-col rainbow-border px-3 py-2 rounded-lg">
-              <div className="text-xl text-accent">
-                <CountUp start={0} end={18} duration={15} />
-              </div>
-              <div className="text-sm tracking-[2px] font-primary">
-                Years Old
-              </div>
+          <div className="ios-section-header flex items-center gap-3 mb-6">
+            <div className="p-1.5 rounded-lg bg-ios-blue/15">
+              <IoIosStats size={18} className="text-ios-blue" />
             </div>
-            <div className="flex flex-col rainbow-border px-3 py-2 rounded-lg">
-              <div className="text-xl text-accent">
-                <CountUp start={0} end={45} duration={10} /> +
-              </div>
-              <div className="text-sm tracking-[2px] font-tertiary">
-                Repository
-              </div>
-            </div>
-            <div className="flex flex-col rainbow-border px-3 py-2 rounded-lg">
-              <div className="text-xl text-accent">
-                <CountUp start={0} end={5} duration={10} /> +
-              </div>
-              <div className="text-sm tracking-[2px] font-tertiary">
-                Experience
-              </div>
-            </div>
+            <span className="text-[15px] font-semibold tracking-tight">Personal Stats</span>
           </div>
-        </div>
-        <div className="mb-10">
-          <h3 className="text-xl font-medium flex items-center gap-x-3 glassmorphism px-3 py-2">
-            <FaTerminal size={20} className="opacity-70" />
-            Tech Skills
-          </h3>
-          <p className="text-sm opacity-70 mt-6">Technologies I work with</p>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="grid grid-cols-3 gap-3 lg:gap-4 mb-8"
+          >
+            {stats.map((stat, i) => (
+              <motion.div
+                key={i}
+                variants={scaleIn(i * 0.08)}
+                className="ios-stat-card text-center"
+              >
+                <div className="text-2xl lg:text-3xl font-bold text-ios-blue mb-1">
+                  <CountUp start={0} end={stat.value} duration={2.5} />
+                  <span className="text-ios-teal">{stat.suffix}</span>
+                </div>
+                <div className="text-[12px] text-label-tertiary font-medium uppercase tracking-wider">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
 
-        <Swiper
-          grabCursor={true}
-          loop={true}
-          freeMode={true}
-          slidesPerView={"auto"}
-          spaceBetween={30}
-          autoplay={{
-            delay: 0, // jalan terus tanpa jeda
-            disableOnInteraction: false,
-            pauseOnMouseEnter: false,
-          }}
-          speed={4000} // kecepatan scroll
-          modules={[Autoplay]}
-          className="mySwiper"
+        {/* Tech Skills */}
+        <div className="mb-6">
+          <div className="ios-section-header flex items-center gap-3 mb-4">
+            <div className="p-1.5 rounded-lg bg-ios-purple/15">
+              <FaTerminal size={14} className="text-ios-purple" />
+            </div>
+            <span className="text-[15px] font-semibold tracking-tight">Tech Skills</span>
+          </div>
+          <p className="text-[13px] text-label-tertiary mt-3 mb-5 pl-1">Technologies I work with</p>
+        </div>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid grid-cols-3 lg:grid-cols-5 gap-3"
         >
-          {frameworks.map((framework, index) => (
-            <SwiperSlide
-              key={index}
-              className="w-56 flex items-center justify-center"
-              style={{ width: "220px" }}
+          {frameworks.map((fw, i) => (
+            <motion.a
+              key={i}
+              href={fw.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              variants={scaleIn(i * 0.04)}
+              className="tech-card group"
+              whileHover={{ y: -6 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             >
-              <div className="glassmorphism bg-slate-800 bg-opacity-40 hover:bg-slate-700 transition-all duration-300 p-6 rounded-xl flex flex-col items-center justify-center w-40 h-40">
-                <div className="h-24 w-24 flex items-center justify-center">
-                  <img
-                    src={framework.imagesUrl}
-                    alt={framework.name}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                </div>
-                <h4 className="mt-3 text-center font-medium">
-                  {framework.name}
-                </h4>
+              <div className="w-10 h-10 flex items-center justify-center mb-3 relative z-10 group-hover:scale-110 transition-transform duration-300">
+                <img
+                  src={fw.imagesUrl}
+                  alt={fw.name}
+                  className="max-h-full max-w-full object-contain opacity-65 group-hover:opacity-100 transition-opacity duration-300"
+                />
               </div>
-            </SwiperSlide>
+              <span className="text-[11px] font-medium text-label-tertiary group-hover:text-white relative z-10 transition-colors duration-300">
+                {fw.name}
+              </span>
+            </motion.a>
           ))}
-        </Swiper>
+        </motion.div>
       </motion.div>
     </section>
   );

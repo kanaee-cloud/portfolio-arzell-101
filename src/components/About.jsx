@@ -3,7 +3,7 @@ import { LuGraduationCap } from "react-icons/lu";
 import { CiCircleInfo } from "react-icons/ci";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { fadeIn } from "../variants";
+import { fadeIn, staggerContainer, scaleIn } from "../variants";
 import Modal from "./Modal";
 import DownloadButton from "./CV/DownloadButton";
 
@@ -46,6 +46,38 @@ const education = [
   },
 ];
 
+const ExperienceCard = ({ item, onClick, index }) => (
+  <motion.div
+    variants={scaleIn(index * 0.1)}
+    className="ios-card p-4 cursor-pointer group"
+    onClick={onClick}
+    whileHover={{ scale: 1.01 }}
+    whileTap={{ scale: 0.99 }}
+  >
+    <div className="flex items-center gap-4">
+      <div className="w-14 h-14 rounded-ios overflow-hidden bg-gray-6 flex-shrink-0 ring-1 ring-white/5">
+        <img
+          src={item.img}
+          alt={item.name}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="flex-1 min-w-0">
+        <h4 className="text-[15px] font-semibold text-white truncate">{item.name}</h4>
+        <p className="text-[13px] text-label-secondary">
+          {item.company} <span className="text-label-quaternary mx-1">•</span> {item.place}
+        </p>
+        <div className="flex items-center gap-2 mt-1">
+          <span className="text-[12px] text-label-tertiary">{item.periode}</span>
+          <span className="text-[11px] px-2 py-0.5 rounded-full bg-ios-blue/10 text-ios-blue font-medium">
+            {item.role}
+          </span>
+        </div>
+      </div>
+    </div>
+  </motion.div>
+);
+
 const About = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,98 +92,77 @@ const About = () => {
   };
 
   return (
-    <section className="" id="about">
-      <div>
-        <h1 className="text-2xl mb-5 font-semibold flex items-center gap-x-2">
-          <CiCircleInfo size={30} className="opacity-70" />
+    <section id="about">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+      >
+        <h1 className="text-2xl mb-4 font-bold tracking-tight flex items-center gap-3">
+          <div className="p-2 rounded-ios bg-ios-indigo/15">
+            <CiCircleInfo size={22} className="text-ios-indigo" />
+          </div>
           About Me
         </h1>
-        <h2 className="text-[16px] text-justify opacity-70 font-light leading-relaxed">
+        <p className="text-[15px] text-label-secondary leading-relaxed text-justify">
           My career trajectory begins as a Frontend Developer, where I intend to
           utilize my proficiency in React, Vue.js, and Next.js to build
           innovative web applications. I am proactive in seeking opportunities
           for professional development and aim to steadily advance my career by
           taking on increasing responsibilities and contributing to more
           significant projects.
-        </h2>
+        </p>
         <div className="mt-5">
           <DownloadButton />
         </div>
-      </div>
+      </motion.div>
 
       {/* Work Experience */}
       <motion.div
-        variants={fadeIn("left", 0.5)}
-        whileInView={"show"}
-        viewport={{ once: false, amount: 0.3 }}
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        className="mt-10"
       >
-        <h3 className="text-xl font-medium flex items-center gap-x-3 glassmorphism px-3 py-2 mt-10">
-          <BsBriefcase size={20} className="opacity-70" />
-          Work Experience
-        </h3>
-        <p className="text-sm opacity-70 mt-6 mb-6">Career Detail</p>
-        <div className="grid gap-6 sm:grid-cols-1">
+        <div className="ios-section-header flex items-center gap-3 mb-5">
+          <div className="p-1.5 rounded-lg bg-ios-orange/15">
+            <BsBriefcase size={16} className="text-ios-orange" />
+          </div>
+          <span className="text-[15px] font-semibold tracking-tight">Work Experience</span>
+        </div>
+
+        <div className="space-y-3">
           {job.map((service, index) => (
-            <div
+            <ExperienceCard
               key={index}
-              className="glassmorphism p-4 rounded-lg shadow-md cursor-pointer"
+              item={service}
+              index={index}
               onClick={() => openModal(service)}
-            >
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
-                <img
-                  src={service.img}
-                  alt={service.name}
-                  className="w-24 h-24 object-cover rounded-lg"
-                />
-                <div className="flex flex-col text-center sm:text-left">
-                  <h4 className="text-md font-semibold">{service.name}</h4>
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-x-2 text-sm opacity-80 text-gray-700">
-                    <p>{service.company}</p> | <p>{service.place}</p>
-                  </div>
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-x-2 text-sm opacity-80 text-gray-700">
-                    <p>{service.periode}</p> • <p>{service.role}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            />
           ))}
         </div>
       </motion.div>
 
       {/* Education */}
       <motion.div
-        variants={fadeIn("left", 0.5)}
-        whileInView={"show"}
-        viewport={{ once: false, amount: 0.3 }}
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        className="mt-10"
       >
-        <h3 className="text-xl font-medium flex items-center gap-x-3 glassmorphism px-3 py-2 mt-10">
-          <LuGraduationCap size={20} className="opacity-70" />
-          Education
-        </h3>
-        <p className="text-sm opacity-70 mt-6 mb-6">Education Detail</p>
-        <div className="grid gap-6 sm:grid-cols-1">
+        <div className="ios-section-header flex items-center gap-3 mb-5">
+          <div className="p-1.5 rounded-lg bg-ios-green/15">
+            <LuGraduationCap size={16} className="text-ios-green" />
+          </div>
+          <span className="text-[15px] font-semibold tracking-tight">Education</span>
+        </div>
+
+        <div className="space-y-3">
           {education.map((ed, index) => (
-            <div
-              key={index}
-              className="glassmorphism p-4 rounded-lg shadow-md cursor-pointer"
-            >
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
-                <img
-                  src={ed.img}
-                  alt={ed.name}
-                  className="w-24 h-24 object-cover rounded-lg"
-                />
-                <div className="flex flex-col text-center sm:text-left">
-                  <h4 className="text-md font-semibold">{ed.name}</h4>
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-x-2 text-sm opacity-80 text-gray-700">
-                    <p>{ed.company}</p> | <p>{ed.place}</p>
-                  </div>
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-x-2 text-sm opacity-80 text-gray-700">
-                    <p>{ed.periode}</p> • <p>{ed.role}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ExperienceCard key={index} item={ed} index={index} onClick={() => openModal(ed)} />
           ))}
         </div>
       </motion.div>
@@ -160,7 +171,7 @@ const About = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        project={selectedService}
+        data={selectedService}
       />
     </section>
   );

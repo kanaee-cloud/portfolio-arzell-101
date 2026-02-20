@@ -7,45 +7,47 @@ import Banner from "./components/Banner";
 import Certificate from "./components/Certificate";
 import Contact from "./components/Contact";
 import Services from "./components/Services";
+import Github from "./components/Github";
 import BotModal from "./components/bot/BotModal";
-import { BiChat } from "react-icons/bi";
+import AuroraBackground from "./components/Background/AuroraBackground";
+import { LuSparkles } from "react-icons/lu";
 
 const App = () => {
   const [isBotOpen, setIsBotOpen] = useState(false);
 
   return (
     <Router>
-      <div className="aurora-bg relative min-h-screen overflow-hidden">
-        <div className="aurora-layer"></div>
+      <AuroraBackground />
 
-        <div className="relative mx-auto flex flex-col lg:flex-row gap-4 h-screen font-primary">
-          <aside className="w-full lg:w-auto">
-            <Sidebar />
-          </aside>
+      <div className="relative mx-auto flex flex-col lg:flex-row gap-0 h-screen font-primary">
+        <aside className="w-full lg:w-auto">
+          <Sidebar />
+        </aside>
 
-          <main className="flex-1 flex p-4">
-            <div className="glassmorphism rounded-2xl py-6 scroll-container px-8 text-white w-full h-full overflow-y-auto">
-              <Routes>
-                <Route path="/" element={<Banner />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/certificate" element={<Certificate />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/work" element={<Services />} />
-              </Routes>
-            </div>
-          </main>
+        <main className="flex-1 flex p-3 lg:p-4">
+          <div className="rounded-ios-xl py-6 scroll-container px-6 lg:px-8 text-white w-full h-full overflow-y-auto"
+               style={{ background: 'rgba(0,0,0,0.25)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+            <Routes>
+              <Route path="/" element={<Banner />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/certificate" element={<Certificate />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/work" element={<Services />} />
+              <Route path="/github" element={<Github />} />
+            </Routes>
+          </div>
+        </main>
 
-          {/* Floating Button Trigger */}
-          <button
-            onClick={() => setIsBotOpen(true)}
-            className="fixed bottom-6 right-6 glassmorphism hover:bg-slate-900 bg-slate-700 text-white p-4 rounded-full shadow-lg transition z-50"
-          >
-            <BiChat size={28} />
-          </button>
+        {/* Floating AI Button */}
+        <button
+          onClick={() => setIsBotOpen(true)}
+          className="fixed bottom-6 right-6 bg-ios-blue hover:bg-[#409CFF] text-white p-4 rounded-full shadow-ios-lg transition-all duration-300 z-50 group hover:scale-105 active:scale-95"
+        >
+          <LuSparkles size={24} className="group-hover:rotate-12 transition-transform duration-300" />
+        </button>
 
-          {/* Chatbot Modal */}
-          <BotModal isOpen={isBotOpen} onClose={() => setIsBotOpen(false)} />
-        </div>
+        {/* Chatbot Modal */}
+        <BotModal isOpen={isBotOpen} onClose={() => setIsBotOpen(false)} />
       </div>
     </Router>
   );

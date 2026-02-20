@@ -2,35 +2,40 @@ import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { PiContactlessPayment } from "react-icons/pi";
 import { motion } from "framer-motion";
-import { fadeIn } from "../variants";
+import { fadeIn, staggerContainer, scaleIn } from "../variants";
 import Swal from "sweetalert2";
 import { FaGithub, FaLinkedin, FaInstagram, FaYoutube } from "react-icons/fa";
+import { IoMdSend } from "react-icons/io";
 
 const social = [
   {
     name: "LinkedIn",
     url: "https://www.linkedin.com/in/arsal-naufal",
-    icon: <FaLinkedin size={24} />,
-    bgColor: "#0077B5",
+    icon: <FaLinkedin size={20} />,
+    color: "text-[#0A84FF]",
+    bgColor: "rgba(10,132,255,0.12)",
   },
   {
     name: "GitHub",
     url: "https://github.com/kanaee-cloud",
-    icon: <FaGithub size={24} />,
-    bgColor: "#333",
+    icon: <FaGithub size={20} />,
+    color: "text-white",
+    bgColor: "rgba(142,142,147,0.18)",
   },
   {
     name: "Instagram",
     url: "https://www.instagram.com/_arsalnaufal",
-    icon: <FaInstagram size={24} />,
-    bgColor: "linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4)",
+    icon: <FaInstagram size={20} />,
+    color: "text-[#FF375F]",
+    bgColor: "rgba(255,55,95,0.12)",
   },
-   {
+  {
     name: "YouTube",
-    url: "https://www.youtube.com/@ryuuziverse6399", 
-    icon: <FaYoutube size={24} />,
-    bgColor: "#F7374F",
-  }
+    url: "https://www.youtube.com/@ryuuziverse6399",
+    icon: <FaYoutube size={20} />,
+    color: "text-[#FF453A]",
+    bgColor: "rgba(255,69,58,0.12)",
+  },
 ];
 
 const Contact = () => {
@@ -39,6 +44,7 @@ const Contact = () => {
     email: "",
     message: "",
   });
+  const [isSending, setIsSending] = useState(false);
 
   const userId = process.env.REACT_APP_EMAILJS_USER_ID;
   const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
@@ -50,6 +56,7 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsSending(true);
 
     const templateParams = {
       name: formData.name,
@@ -60,126 +67,160 @@ const Contact = () => {
 
     emailjs.send(serviceId, templateId, templateParams, userId).then(
       (result) => {
-        console.log("Pesan terkirim: ", result.text);
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Your message has been sent!",
+          title: "Message sent successfully!",
           showConfirmButton: false,
           timer: 1500,
+          background: '#1C1C1E',
+          color: '#fff',
         });
+        setIsSending(false);
       },
       (error) => {
-        console.log("Gagal mengirim pesan: ", error.text);
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: "Something went wrong!",
           showConfirmButton: false,
           timer: 1500,
+          background: '#1C1C1E',
+          color: '#fff',
         });
+        setIsSending(false);
       }
     );
 
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-    });
+    setFormData({ name: "", email: "", message: "" });
   };
 
   return (
-    <section className="" id="contact">
-      <div>
-        <h1 className="text-2xl mb-5 font-semibold flex items-center gap-x-2">
-          <PiContactlessPayment size={30} className="opacity-70" />
+    <section id="contact">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+      >
+        <h1 className="text-2xl mb-4 font-bold tracking-tight flex items-center gap-3">
+          <div className="p-2 rounded-ios bg-ios-green/15">
+            <PiContactlessPayment size={22} className="text-ios-green" />
+          </div>
           Contact
         </h1>
-        <h2 className="text-[16px] text-justify opacity-70 font-light leading-relaxed">
-          For further information please contact me.
-        </h2>
-        <hr className="opacity-30 my-5" />
-      </div>
-      <div>
-        <h1 className="text-2xl mb-5 font-semibold flex items-center gap-x-2">
-          {/* <CiCircleInfo size={30} className="opacity-70" /> */}
-          Social Media
-        </h1>
-        <h2 className="text-[16px] text-justify opacity-70 font-light leading-relaxed">
-          Get in touch with me on social media.
-        </h2>
-      </div>
-      <div className="mt-5 w-full grid grid-cols-2 md:grid-cols-3 justify-center gap-4">
-        {social.map((item, index) => {
-          return (
-            <a
+        <p className="text-[15px] text-label-secondary leading-relaxed">
+          For further information, feel free to reach out.
+        </p>
+        <div className="ios-separator" />
+      </motion.div>
+
+      {/* Social Media */}
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="mb-8"
+      >
+        <h2 className="text-[17px] font-semibold mb-4 tracking-tight">Social Media</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {social.map((item, index) => (
+            <motion.a
               key={index}
+              variants={scaleIn(index * 0.06)}
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex items-center gap-x-3 px-5 py-3 rounded-xl transition-all duration-300 text-white shadow-md hover:scale-[1.03]`}
-              style={{
-                background: item.bgColor,
-              }}
+              className="ios-card flex items-center gap-3 px-4 py-3 group"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              style={{ background: item.bgColor }}
             >
-              <div>{item.icon}</div>
-              <span className="text-sm font-medium">{item.name}</span>
-            </a>
-          );
-        })}
-      </div>
-      <hr className="opacity-30 my-5" />
-      <div>
-        <h1 className="text-2xl mb-5 font-semibold flex items-center gap-x-2">
-          {/* <CiCircleInfo size={30} className="opacity-70" /> */}
-          Or send an email
-        </h1>
-        <h2 className="text-[16px] text-justify opacity-70 font-light leading-relaxed">
-          Use your valid gmail so i can contact back.
-        </h2>
-      </div>
-      <div className="flex flex-col lg:flex-row">
-        <motion.form
-          variants={fadeIn("left", 0.4)}
-          initial="hidden"
-          whileInView={"show"}
-          viewport={{ once: false, amount: 0.3 }}
-          className="flex-1 glassmorphism flex flex-col gap-y-6 pb-24 p-6 items-start"
+              <span className={item.color}>{item.icon}</span>
+              <span className="text-[13px] font-medium text-white">{item.name}</span>
+            </motion.a>
+          ))}
+        </div>
+      </motion.div>
+
+      <div className="ios-separator" />
+
+      {/* Email Form */}
+      <motion.div
+        variants={fadeIn("up", 0.2)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+      >
+        <h2 className="text-[17px] font-semibold mb-2 tracking-tight">Send a Message</h2>
+        <p className="text-[13px] text-label-tertiary mb-6">Use your valid email so I can get back to you.</p>
+
+        <form
+          className="ios-card p-6 space-y-4"
           onSubmit={handleSubmit}
         >
-          <div className="w-full flex gap-x-4">
-            <input
-              className="bg-transparent border-b py-3 outline-none w-full placeholder:opacity-50 focus:border-gradient transition-all"
-              type="text"
-              placeholder="Your Name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-            <input
-              className="bg-transparent border-b py-3 outline-none w-full placeholder:opacity-50 focus:border-gradient transition-all"
-              type="text"
-              placeholder="Email"
-              name="email"
-              value={formData.email}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="text-[12px] text-label-tertiary font-medium uppercase tracking-wider mb-2 block">
+                Name
+              </label>
+              <input
+                className="ios-input"
+                type="text"
+                placeholder="Your name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
+              <label className="text-[12px] text-label-tertiary font-medium uppercase tracking-wider mb-2 block">
+                Email
+              </label>
+              <input
+                className="ios-input"
+                type="email"
+                placeholder="your@email.com"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-[12px] text-label-tertiary font-medium uppercase tracking-wider mb-2 block">
+              Message
+            </label>
+            <textarea
+              className="ios-input resize-none h-32"
+              placeholder="Write your message..."
+              name="message"
+              value={formData.message}
               onChange={handleChange}
               required
             />
           </div>
-          <textarea
-            className="bg-transparent border-b py-3 outline-none w-full placeholder:opacity-50 focus:border-gradient transition-all resize-none mb-12"
-            placeholder="Message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-          ></textarea>
-          <button type="submit" className="bg-black/20 text-white w-full py-3 px-6 rounded-lg shadow-md hover:scale-[1.03] transition-all duration-300">
-            Submit
+
+          <button
+            type="submit"
+            disabled={isSending}
+            className="ios-btn w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSending ? (
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            ) : (
+              <>
+                <IoMdSend size={16} />
+                <span>Send Message</span>
+              </>
+            )}
           </button>
-        </motion.form>
-      </div>
+        </form>
+      </motion.div>
     </section>
   );
 };

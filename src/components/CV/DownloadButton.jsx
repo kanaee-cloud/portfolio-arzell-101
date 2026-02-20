@@ -17,9 +17,9 @@ const DownloadButton = () => {
   return (
     <button
       onClick={handleDownload}
-      className="text-sm glassmorphism rounded-md py-2 px-4 flex items-center gap-x-3 text-white font-semibold hover:bg-black/20 transition-colors duration-300"
+      className="ios-btn-secondary inline-flex items-center gap-2 text-[14px]"
     >
-      <MdOutlineFileDownload size={20} className="opacity-70"/>  
+      <MdOutlineFileDownload size={18} />
       Download CV
     </button>
   );

@@ -60,7 +60,7 @@ const Chatbot = () => {
         return [
           ...updated,
           {
-            text: "⚠️ Terjadi kesalahan koneksi. Silakan coba lagi.",
+            text: "Connection error. Please try again.",
             sender: "bot",
             isError: true,
           },
@@ -72,100 +72,100 @@ const Chatbot = () => {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-[60vh] w-full px-4 py-8">
-      <div className="relative w-full max-w-xl bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[500px]">
-        <div className="flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-white/5 z-10">
-          <div className="p-1.5 bg-indigo-500/20 rounded-lg border border-indigo-500/30">
-            <LuSparkles size={20} className="text-indigo-400" />
-          </div>
-          <div>
-            <h1 className="text-sm font-bold text-white tracking-wide">
-              Gemini Assistant
-            </h1>
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-              <p className="text-[10px] text-slate-400 font-medium">Online</p>
-            </div>
+    <div className="w-full rounded-ios-xl overflow-hidden flex flex-col h-[500px] shadow-ios-lg"
+         style={{ background: '#1C1C1E', border: '1px solid rgba(255,255,255,0.08)' }}>
+      {/* Header */}
+      <div className="flex items-center gap-3 px-5 py-3 border-b border-white/[0.06]">
+        <div className="p-2 rounded-ios bg-ios-blue/15">
+          <LuSparkles size={18} className="text-ios-blue" />
+        </div>
+        <div>
+          <h1 className="text-[14px] font-semibold text-white tracking-tight">
+            AI Assistant
+          </h1>
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 bg-ios-green rounded-full animate-pulse-soft" />
+            <p className="text-[11px] text-label-tertiary">Online</p>
           </div>
         </div>
+      </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-container">
-          {messages.length === 0 && (
-            <div className="flex flex-col items-center justify-center h-full text-center opacity-40 space-y-2">
-              <LuBot size={48} />
-              <p className="text-xs">Mulai percakapan dengan menyapa AI.</p>
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 scroll-container">
+        {messages.length === 0 && (
+          <div className="flex flex-col items-center justify-center h-full text-center space-y-3">
+            <div className="p-4 rounded-full bg-gray-5">
+              <LuBot size={32} className="text-label-tertiary" />
             </div>
-          )}
+            <p className="text-[13px] text-label-tertiary">Start a conversation with AI.</p>
+          </div>
+        )}
 
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`flex w-full ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
-            >
-              <div className={`flex max-w-[85%] gap-2 ${msg.sender === "user" ? "flex-row-reverse" : "flex-row"}`}>
-                
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] ${
-                  msg.sender === "user"
-                    ? "bg-indigo-600 text-white shadow-lg"
-                    : "bg-slate-700 text-emerald-400 border border-slate-600"
-                }`}>
-                  {msg.sender === "user" ? <LuUser size={14} /> : <LuBot size={16} />}
-                </div>
+        {messages.map((msg, index) => (
+          <div
+            key={index}
+            className={`flex w-full ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+          >
+            <div className={`flex max-w-[85%] gap-2 ${msg.sender === "user" ? "flex-row-reverse" : "flex-row"}`}>
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
+                msg.sender === "user"
+                  ? "bg-ios-blue text-white"
+                  : "bg-gray-5 text-ios-green ring-1 ring-white/[0.06]"
+              }`}>
+                {msg.sender === "user" ? <LuUser size={13} /> : <LuBot size={14} />}
+              </div>
 
-                {/* Bubble Text: px-5 -> px-4, py-3.5 -> py-2.5 */}
-                <div className={`relative px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm ${
-                  msg.sender === "user"
-                    ? "bg-indigo-600 text-white rounded-tr-none"
-                    : msg.isError
-                      ? "bg-red-500/10 text-red-200 border border-red-500/20 rounded-tl-none"
-                      : "bg-slate-800 text-slate-200 border border-slate-700/50 rounded-tl-none"
-                }`}>
-                  {msg.isTyping ? (
-                    <TypingBubble />
-                  ) : (
-                    <div className="prose prose-invert prose-sm max-w-none text-xs md:text-sm">
-                      <ReactMarkdown>{msg.text}</ReactMarkdown>
-                    </div>
-                  )}
-                </div>
+              <div className={`relative px-4 py-2.5 rounded-ios-lg text-[14px] leading-relaxed ${
+                msg.sender === "user"
+                  ? "bg-ios-blue text-white rounded-tr-sm"
+                  : msg.isError
+                    ? "bg-ios-red/10 text-ios-red border border-ios-red/20 rounded-tl-sm"
+                    : "bg-gray-5 text-label-primary border border-white/[0.04] rounded-tl-sm"
+              }`}>
+                {msg.isTyping ? (
+                  <TypingBubble />
+                ) : (
+                  <div className="prose prose-invert prose-sm max-w-none text-[13px]">
+                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  </div>
+                )}
               </div>
             </div>
-          ))}
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* --- Input Area Compact --- */}
-        <div className="p-3 bg-slate-900/90 border-t border-white/5 backdrop-blur-md">
-          <div className="relative flex items-center gap-2 bg-slate-800/50 border border-white/10 rounded-xl px-2 py-1.5 focus-within:border-indigo-500/50 focus-within:bg-slate-800 transition-all">
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              placeholder="Tanyakan sesuatu..."
-              className="flex-1 bg-transparent text-white px-3 py-1.5 outline-none placeholder:text-slate-500 text-xs md:text-sm"
-              disabled={isLoading}
-            />
-            <button
-              onClick={sendMessage}
-              disabled={isLoading || !inputText.trim()}
-              className={`p-2 rounded-lg transition-all ${
-                isLoading || !inputText.trim()
-                  ? "bg-slate-700 text-slate-500 cursor-not-allowed"
-                  : "bg-indigo-600 text-white hover:bg-indigo-500 shadow-md"
-              }`}
-            >
-              {isLoading ? (
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <IoMdSend size={16} />
-              )}
-            </button>
           </div>
-        </div>
-
+        ))}
+        <div ref={messagesEndRef} />
       </div>
-    </section>
+
+      {/* Input */}
+      <div className="p-3 border-t border-white/[0.06]" style={{ background: 'rgba(28,28,30,0.95)' }}>
+        <div className="flex items-center gap-2 bg-gray-5 border border-white/[0.06] rounded-ios-lg px-3 py-1.5 focus-within:border-ios-blue/40 transition-all duration-200">
+          <input
+            type="text"
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            placeholder="Ask something..."
+            className="flex-1 bg-transparent text-white px-1 py-1.5 outline-none placeholder:text-label-quaternary text-[14px]"
+            disabled={isLoading}
+          />
+          <button
+            onClick={sendMessage}
+            disabled={isLoading || !inputText.trim()}
+            className={`p-2 rounded-ios transition-all duration-200 ${
+              isLoading || !inputText.trim()
+                ? "bg-gray-4 text-label-quaternary cursor-not-allowed"
+                : "bg-ios-blue text-white hover:bg-[#409CFF] active:scale-95"
+            }`}
+          >
+            {isLoading ? (
+              <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+            ) : (
+              <IoMdSend size={15} />
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
