@@ -6,10 +6,8 @@ import { FaGithub } from "react-icons/fa";
 import { MdContacts } from "react-icons/md";
 import { TbCertificate } from "react-icons/tb";
 import { RiMenu4Line, RiCloseLine } from "react-icons/ri";
-import { LuBot } from "react-icons/lu";
 import { TypeAnimation } from "react-type-animation";
 import { motion, AnimatePresence } from "framer-motion";
-import { fadeIn } from "../variants";
 import { useLocation } from "react-router-dom";
 import { MdOutlineVerified } from "react-icons/md";
 

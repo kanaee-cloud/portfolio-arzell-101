@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { BsArrowUpRight } from "react-icons/bs";
-import { fadeIn, staggerContainer, scaleIn } from "../variants";
+import { staggerContainer, scaleIn } from "../variants";
 import { GoProjectRoadmap } from "react-icons/go";
 import Badge from "./Badges/Badge";
 import Modal from "./Modal";

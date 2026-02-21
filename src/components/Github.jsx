@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { staggerContainer, scaleIn, fadeIn } from "../variants";
-import { FaGithub, FaStar, FaCodeBranch, FaUsers, FaBook, FaExternalLinkAlt } from "react-icons/fa";
+import { FaGithub, FaStar, FaUsers, FaBook, FaExternalLinkAlt } from "react-icons/fa";
 import { GoRepoForked, GoRepo, GoGitPullRequest } from "react-icons/go";
 import { BsActivity } from "react-icons/bs";
 

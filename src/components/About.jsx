@@ -3,7 +3,7 @@ import { LuGraduationCap } from "react-icons/lu";
 import { CiCircleInfo } from "react-icons/ci";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { fadeIn, staggerContainer, scaleIn } from "../variants";
+import { staggerContainer, scaleIn } from "../variants";
 import Modal from "./Modal";
 import DownloadButton from "./CV/DownloadButton";
 
