@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { staggerContainer, scaleIn, fadeIn } from "../variants";
-import { FaGithub, FaStar, FaUsers, FaBook, FaExternalLinkAlt, FaCode } from "react-icons/fa";
+import { FaGithub, FaStar, FaUsers, FaBook, FaExternalLinkAlt, FaCode, FaTrophy } from "react-icons/fa";
 import { GoRepoForked, GoRepo, GoGitPullRequest } from "react-icons/go";
-import { BsActivity, BsCalendar3 } from "react-icons/bs";
+import { BsActivity, BsCalendar3, BsLightningCharge } from "react-icons/bs";
+import { HiOutlineSparkles } from "react-icons/hi";
+import { IoRocketOutline } from "react-icons/io5";
+import { TbBrandGit, TbWorldCode } from "react-icons/tb";
+import { RiCodeSSlashLine } from "react-icons/ri";
 
 const GITHUB_USERNAME = "kanaee-cloud";
 
@@ -76,6 +80,63 @@ const Github = () => {
   // Account age
   const createdDate = new Date(profile.created_at);
   const accountAge = Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24 * 365));
+
+  // Achievements computed from data
+  const achievements = [];
+
+  // Repo milestones
+  if (profile.public_repos >= 50) achievements.push({ name: "Repository King", desc: "50+ public repositories", icon: GoRepo, tier: "gold", color: "#FFD60A" });
+  else if (profile.public_repos >= 20) achievements.push({ name: "Repo Builder", desc: "20+ public repositories", icon: GoRepo, tier: "silver", color: "#C0C0C0" });
+  else if (profile.public_repos >= 5) achievements.push({ name: "First Steps", desc: "5+ public repositories", icon: GoRepo, tier: "bronze", color: "#CD7F32" });
+
+  // Star milestones
+  if (totalStars >= 100) achievements.push({ name: "Star Legend", desc: "100+ total stars earned", icon: FaStar, tier: "gold", color: "#FFD60A" });
+  else if (totalStars >= 20) achievements.push({ name: "Rising Star", desc: "20+ total stars earned", icon: FaStar, tier: "silver", color: "#C0C0C0" });
+  else if (totalStars >= 1) achievements.push({ name: "First Star", desc: "Earned your first star", icon: FaStar, tier: "bronze", color: "#CD7F32" });
+
+  // Fork milestones
+  if (totalForks >= 50) achievements.push({ name: "Fork Master", desc: "50+ total forks", icon: GoRepoForked, tier: "gold", color: "#FFD60A" });
+  else if (totalForks >= 10) achievements.push({ name: "Fork Pro", desc: "10+ total forks", icon: GoRepoForked, tier: "silver", color: "#C0C0C0" });
+  else if (totalForks >= 1) achievements.push({ name: "First Fork", desc: "Someone forked your repo", icon: GoRepoForked, tier: "bronze", color: "#CD7F32" });
+
+  // Language diversity
+  if (languages.length >= 10) achievements.push({ name: "Polyglot", desc: "10+ programming languages", icon: TbWorldCode, tier: "gold", color: "#FFD60A" });
+  else if (languages.length >= 5) achievements.push({ name: "Multilingual", desc: "5+ programming languages", icon: TbWorldCode, tier: "silver", color: "#C0C0C0" });
+  else if (languages.length >= 2) achievements.push({ name: "Bilingual", desc: "2+ programming languages", icon: RiCodeSSlashLine, tier: "bronze", color: "#CD7F32" });
+
+  // Followers milestone
+  if (profile.followers >= 100) achievements.push({ name: "Influencer", desc: "100+ followers", icon: FaUsers, tier: "gold", color: "#FFD60A" });
+  else if (profile.followers >= 20) achievements.push({ name: "Popular", desc: "20+ followers", icon: FaUsers, tier: "silver", color: "#C0C0C0" });
+  else if (profile.followers >= 1) achievements.push({ name: "First Follower", desc: "Someone followed you", icon: FaUsers, tier: "bronze", color: "#CD7F32" });
+
+  // Account age
+  if (accountAge >= 5) achievements.push({ name: "Veteran", desc: `${accountAge}+ years on GitHub`, icon: BsLightningCharge, tier: "gold", color: "#FFD60A" });
+  else if (accountAge >= 2) achievements.push({ name: "Committed", desc: `${accountAge}+ years on GitHub`, icon: TbBrandGit, tier: "silver", color: "#C0C0C0" });
+  else if (accountAge >= 1) achievements.push({ name: "Explorer", desc: "1+ year on GitHub", icon: IoRocketOutline, tier: "bronze", color: "#CD7F32" });
+
+  // Special: has bio
+  if (profile.bio) achievements.push({ name: "Storyteller", desc: "Has a profile bio", icon: HiOutlineSparkles, tier: "special", color: "#BF5AF2" });
+
+  // Special: has many recent repos
+  const recentCount = repos.filter((r) => {
+    const diff = Date.now() - new Date(r.updated_at).getTime();
+    return diff < 30 * 24 * 60 * 60 * 1000; // updated in last 30 days
+  }).length;
+  if (recentCount >= 5) achievements.push({ name: "On Fire", desc: `${recentCount} repos updated this month`, icon: BsLightningCharge, tier: "special", color: "#FF9F0A" });
+
+  const tierGlow = {
+    gold: "shadow-[0_0_20px_rgba(255,214,10,0.2)]",
+    silver: "shadow-[0_0_20px_rgba(192,192,192,0.15)]",
+    bronze: "shadow-[0_0_20px_rgba(205,127,50,0.15)]",
+    special: "shadow-[0_0_20px_rgba(191,90,242,0.2)]",
+  };
+
+  const tierBg = {
+    gold: "bg-[#FFD60A]/[0.06] ring-[#FFD60A]/20",
+    silver: "bg-white/[0.04] ring-white/10",
+    bronze: "bg-[#CD7F32]/[0.06] ring-[#CD7F32]/20",
+    special: "bg-[#BF5AF2]/[0.06] ring-[#BF5AF2]/20",
+  };
 
   const stats = [
     { label: "Repositories", value: profile.public_repos, icon: <GoRepo size={18} />, color: "text-ios-blue" },
@@ -183,6 +244,75 @@ const Github = () => {
           </motion.div>
         ))}
       </motion.div>
+
+      {/* Achievements */}
+      {achievements.length > 0 && (
+        <motion.div
+          variants={fadeIn("up", 0.15)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="mb-8"
+        >
+          <div className="ios-section-header flex items-center gap-3 mb-4">
+            <div className="p-1.5 rounded-lg bg-ios-yellow/15">
+              <FaTrophy size={16} className="text-ios-yellow" />
+            </div>
+            <span className="text-[15px] font-semibold tracking-tight">Achievements</span>
+            <span className="ml-auto text-[11px] text-label-quaternary font-medium">{achievements.length} unlocked</span>
+          </div>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
+          >
+            {achievements.map((a, i) => {
+              const Icon = a.icon;
+              return (
+                <motion.div
+                  key={a.name}
+                  variants={scaleIn(i * 0.04)}
+                  whileHover={{ scale: 1.04, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`relative rounded-2xl p-4 ring-1 ${tierBg[a.tier]} ${tierGlow[a.tier]} flex flex-col items-center text-center cursor-default transition-shadow duration-300`}
+                >
+                  {/* Tier label */}
+                  <span
+                    className="absolute top-2 right-2 text-[9px] font-bold uppercase tracking-widest rounded-full px-1.5 py-0.5"
+                    style={{
+                      color: a.color,
+                      background: `${a.color}15`,
+                    }}
+                  >
+                    {a.tier === "special" ? "★" : a.tier}
+                  </span>
+
+                  {/* Icon with glow */}
+                  <motion.div
+                    className="relative mb-3 mt-1"
+                    animate={{
+                      filter: [
+                        `drop-shadow(0 0 4px ${a.color}40)`,
+                        `drop-shadow(0 0 10px ${a.color}60)`,
+                        `drop-shadow(0 0 4px ${a.color}40)`,
+                      ],
+                    }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <Icon size={28} style={{ color: a.color }} />
+                  </motion.div>
+
+                  <h4 className="text-[13px] font-semibold text-white leading-tight">{a.name}</h4>
+                  <p className="text-[10px] text-label-tertiary mt-1 leading-snug">{a.desc}</p>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* Contribution Graph */}
       <motion.div
