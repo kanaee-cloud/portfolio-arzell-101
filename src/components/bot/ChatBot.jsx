@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { LuBot, LuUser, LuSparkles } from "react-icons/lu";
+import { LuBot, LuUser } from "react-icons/lu";
 import { IoMdSend } from "react-icons/io";
 import ReactMarkdown from "react-markdown";
 import TypingBubble from "../ui/TypingBubble";
