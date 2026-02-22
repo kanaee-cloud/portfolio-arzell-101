@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import emailjs from "@emailjs/browser";
 import { PiContactlessPayment } from "react-icons/pi";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer, scaleIn } from "../variants";
 import Swal from "sweetalert2";
 import { FaGithub, FaLinkedin, FaInstagram, FaYoutube } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
+
+const WEB3FORMS_ACCESS_KEY = process.env.REACT_APP_WEB3FORMS_KEY;
 
 const social = [
   {
@@ -46,27 +47,31 @@ const Contact = () => {
   });
   const [isSending, setIsSending] = useState(false);
 
-  const userId = process.env.REACT_APP_EMAILJS_USER_ID;
-  const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
-  const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSending(true);
 
-    const templateParams = {
-      name: formData.name,
-      email: formData.email,
-      message: formData.message,
-      reply_to: formData.email,
-    };
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          subject: `Portfolio Message from ${formData.name}`,
+          from_name: "Portfolio Contact Form",
+        }),
+      });
 
-    emailjs.send(serviceId, templateId, templateParams, userId).then(
-      (result) => {
+      const result = await response.json();
+
+      if (result.success) {
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -76,23 +81,24 @@ const Contact = () => {
           background: '#1C1C1E',
           color: '#fff',
         });
-        setIsSending(false);
-      },
-      (error) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-          showConfirmButton: false,
-          timer: 1500,
-          background: '#1C1C1E',
-          color: '#fff',
-        });
-        setIsSending(false);
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        throw new Error(result.message || "Failed to send");
       }
-    );
-
-    setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Web3Forms error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong! Please try again.",
+        showConfirmButton: false,
+        timer: 1500,
+        background: '#1C1C1E',
+        color: '#fff',
+      });
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
