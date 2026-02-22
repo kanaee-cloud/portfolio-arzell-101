@@ -15,6 +15,10 @@ import {
   SiReact,
   SiFirebase,
   SiAxios,
+  SiFlutter,
+  SiGo,
+  SiRabbitmq,
+  SiLinux,
 } from "react-icons/si";
 
 const frameworkMap = {
@@ -81,6 +85,22 @@ const frameworkMap = {
   Axios: {
     icon: <SiAxios size={12} />,
     color: "bg-[#BF5AF2]/10 text-[#BF5AF2] ring-[#BF5AF2]/20",
+  },
+  Flutter: {
+    icon: <SiFlutter size={12} />,
+    color: "bg-[#02569B]/10 text-[#54C5F8] ring-[#54C5F8]/20",
+  },
+  Golang: {
+    icon: <SiGo size={12} />,
+    color: "bg-[#00ADD8]/10 text-[#00ADD8] ring-[#00ADD8]/20",
+  },
+  RabbitMQ: {
+    icon: <SiRabbitmq size={12} />,
+    color: "bg-[#FF6600]/10 text-[#FF6600] ring-[#FF6600]/20",
+  },
+  Linux: {
+    icon: <SiLinux size={12} />,
+    color: "bg-[#FFD60A]/10 text-[#FFD60A] ring-[#FFD60A]/20",
   },
 };
 

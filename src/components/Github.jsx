@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { staggerContainer, scaleIn, fadeIn } from "../variants";
-import { FaGithub, FaStar, FaUsers, FaBook, FaExternalLinkAlt } from "react-icons/fa";
+import { FaGithub, FaStar, FaUsers, FaBook, FaExternalLinkAlt, FaCode } from "react-icons/fa";
 import { GoRepoForked, GoRepo, GoGitPullRequest } from "react-icons/go";
-import { BsActivity } from "react-icons/bs";
+import { BsActivity, BsCalendar3 } from "react-icons/bs";
 
 const GITHUB_USERNAME = "kanaee-cloud";
 
@@ -60,6 +60,23 @@ const Github = () => {
     .sort((a, b) => (b.stargazers_count + b.forks_count) - (a.stargazers_count + a.forks_count))
     .slice(0, 6);
 
+  // Language distribution
+  const langCount = {};
+  repos.forEach((r) => {
+    if (r.language) langCount[r.language] = (langCount[r.language] || 0) + 1;
+  });
+  const sortedLangs = Object.entries(langCount)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8);
+  const maxLangCount = sortedLangs.length > 0 ? sortedLangs[0][1] : 1;
+
+  // Recent repos (last 5 updated)
+  const recentRepos = [...repos].slice(0, 5);
+
+  // Account age
+  const createdDate = new Date(profile.created_at);
+  const accountAge = Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24 * 365));
+
   const stats = [
     { label: "Repositories", value: profile.public_repos, icon: <GoRepo size={18} />, color: "text-ios-blue" },
     { label: "Followers", value: profile.followers, icon: <FaUsers size={18} />, color: "text-ios-purple" },
@@ -83,6 +100,13 @@ const Github = () => {
     Blade: "#F7523F",
     "C#": "#178600",
     Shell: "#89E051",
+    Go: "#00ADD8",
+    Kotlin: "#A97BFF",
+    Swift: "#F05138",
+    Ruby: "#CC342D",
+    Rust: "#DEA584",
+    C: "#555555",
+    "C++": "#f34b7d",
   };
 
   return (
@@ -133,6 +157,12 @@ const Github = () => {
           {profile.bio && (
             <p className="text-[13px] text-label-secondary mt-1 line-clamp-2">{profile.bio}</p>
           )}
+          <div className="flex items-center gap-1.5 mt-1.5">
+            <BsCalendar3 size={10} className="text-label-quaternary" />
+            <p className="text-[11px] text-label-quaternary">
+              Joined {createdDate.toLocaleDateString("en-US", { month: "long", year: "numeric" })} · {accountAge}+ years on GitHub
+            </p>
+          </div>
         </div>
       </motion.div>
 
@@ -177,7 +207,7 @@ const Github = () => {
         </div>
       </motion.div>
 
-      {/* GitHub Stats Cards */}
+      {/* Language Breakdown */}
       <motion.div
         variants={fadeIn("up", 0.25)}
         initial="hidden"
@@ -187,29 +217,64 @@ const Github = () => {
       >
         <div className="ios-section-header flex items-center gap-3 mb-4">
           <div className="p-1.5 rounded-lg bg-ios-blue/15">
-            <GoGitPullRequest size={16} className="text-ios-blue" />
+            <FaCode size={16} className="text-ios-blue" />
           </div>
-          <span className="text-[15px] font-semibold tracking-tight">Stats Overview</span>
+          <span className="text-[15px] font-semibold tracking-tight">Language Breakdown</span>
         </div>
-        <div className="grid md:grid-cols-2 gap-3">
-          <div className="ios-card p-3 flex items-center justify-center overflow-hidden">
-            <img
-              src={`https://github-readme-stats.vercel.app/api?username=${GITHUB_USERNAME}&show_icons=true&hide_border=true&bg_color=00000000&title_color=0A84FF&text_color=ebebf599&icon_color=5E5CE6&ring_color=0A84FF`}
-              alt="GitHub Stats"
-              className="w-full max-w-sm"
-            />
+
+        {/* Language color bar */}
+        <div className="ios-card p-5">
+          <div className="flex w-full h-3 rounded-full overflow-hidden mb-5">
+            {sortedLangs.map(([lang, count], i) => (
+              <div
+                key={lang}
+                className="h-full transition-all duration-500"
+                style={{
+                  width: `${(count / repos.filter((r) => r.language).length) * 100}%`,
+                  background: langColors[lang] || "#8E8E93",
+                  opacity: 0.85,
+                }}
+                title={`${lang}: ${count} repos`}
+              />
+            ))}
           </div>
-          <div className="ios-card p-3 flex items-center justify-center overflow-hidden">
-            <img
-              src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${GITHUB_USERNAME}&layout=compact&hide_border=true&bg_color=00000000&title_color=0A84FF&text_color=ebebf599`}
-              alt="Top Languages"
-              className="w-full max-w-sm"
-            />
+
+          <div className="space-y-3">
+            {sortedLangs.map(([lang, count], i) => {
+              const percentage = Math.round((count / repos.filter((r) => r.language).length) * 100);
+              return (
+                <div key={lang} className="group">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                        style={{ background: langColors[lang] || "#8E8E93" }}
+                      />
+                      <span className="text-[13px] font-medium text-white">{lang}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-[12px] text-label-tertiary">{count} repos</span>
+                      <span className="text-[12px] font-semibold text-label-secondary w-10 text-right">{percentage}%</span>
+                    </div>
+                  </div>
+                  <div className="w-full h-1.5 rounded-full bg-white/[0.04] overflow-hidden">
+                    <motion.div
+                      className="h-full rounded-full"
+                      style={{ background: langColors[lang] || "#8E8E93" }}
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${(count / maxLangCount) * 100}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.8, delay: i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </motion.div>
 
-      {/* Streak Stats */}
+      {/* Recently Updated */}
       <motion.div
         variants={fadeIn("up", 0.3)}
         initial="hidden"
@@ -217,12 +282,45 @@ const Github = () => {
         viewport={{ once: true }}
         className="mb-8"
       >
-        <div className="ios-card p-3 flex items-center justify-center overflow-hidden">
-          <img
-            src={`https://github-readme-streak-stats.herokuapp.com/?user=${GITHUB_USERNAME}&hide_border=true&background=00000000&stroke=2C2C2E&ring=0A84FF&fire=FF9F0A&currStreakNum=FFFFFF&sideNums=FFFFFF&currStreakLabel=0A84FF&sideLabels=ebebf599&dates=ebebf54d`}
-            alt="GitHub Streak"
-            className="w-full max-w-lg"
-          />
+        <div className="ios-section-header flex items-center gap-3 mb-4">
+          <div className="p-1.5 rounded-lg bg-ios-orange/15">
+            <GoGitPullRequest size={16} className="text-ios-orange" />
+          </div>
+          <span className="text-[15px] font-semibold tracking-tight">Recently Updated</span>
+        </div>
+
+        <div className="ios-card divide-y divide-white/[0.04] overflow-hidden">
+          {recentRepos.map((repo) => {
+            const updatedAt = new Date(repo.updated_at);
+            const daysAgo = Math.floor((Date.now() - updatedAt.getTime()) / (1000 * 60 * 60 * 24));
+            const timeLabel = daysAgo === 0 ? "today" : daysAgo === 1 ? "yesterday" : `${daysAgo}d ago`;
+            return (
+              <a
+                key={repo.id}
+                href={repo.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-4 py-3 hover:bg-white/[0.03] transition-colors group"
+              >
+                <GoRepo size={14} className="text-ios-blue flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <span className="text-[13px] font-medium text-white group-hover:text-ios-blue transition-colors truncate block">
+                    {repo.name}
+                  </span>
+                </div>
+                {repo.language && (
+                  <span className="flex items-center gap-1.5 text-[11px] text-label-tertiary flex-shrink-0">
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ background: langColors[repo.language] || "#8E8E93" }}
+                    />
+                    {repo.language}
+                  </span>
+                )}
+                <span className="text-[11px] text-label-quaternary flex-shrink-0">{timeLabel}</span>
+              </a>
+            );
+          })}
         </div>
       </motion.div>
 

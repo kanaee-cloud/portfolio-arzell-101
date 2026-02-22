@@ -1,63 +1,23 @@
-import { FaTerminal } from "react-icons/fa";
+import { FaTerminal, FaReact, FaLaravel, FaNodeJs, FaVuejs } from "react-icons/fa";
 import { IoIosStats } from "react-icons/io";
+import { SiNextdotjs, SiTailwindcss, SiMongodb, SiExpress, SiVite, SiFirebase, SiTypescript, SiJavascript } from "react-icons/si";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer, scaleIn } from "../variants";
 import CountUp from "react-countup";
 
 const frameworks = [
-  {
-    name: "React",
-    url: "https://reactjs.org/",
-    imagesUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg",
-  },
-  {
-    name: "Next.js",
-    url: "https://nextjs.org/",
-    imagesUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg",
-  },
-  {
-    name: "Laravel",
-    url: "https://laravel.com/",
-    imagesUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg",
-  },
-  {
-    name: "Tailwind",
-    url: "https://tailwindcss.com/",
-    imagesUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg",
-  },
-  {
-    name: "MongoDB",
-    url: "https://www.mongodb.com/",
-    imagesUrl: "https://www.svgrepo.com/show/331488/mongodb.svg",
-  },
-  {
-    name: "Node.js",
-    url: "https://nodejs.org/en/",
-    imagesUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg",
-  },
-  {
-    name: "Express.js",
-    url: "https://expressjs.com/",
-    imagesUrl:
-      "https://cdn.worldvectorlogo.com/logos/expressjs.svg",
-  },
-  {
-    name: "Vite",
-    url: "https://expressjs.com/",
-    imagesUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Vitejs-logo.svg/640px-Vitejs-logo.svg.png",
-  },
-  {
-    name: "Firebase",
-    url: "https://expressjs.com/",
-    imagesUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Firebase_Logo_%28No_wordmark%29_%282024-%29.svg/640px-Firebase_Logo_%28No_wordmark%29_%282024-%29.svg.png",
-  },
+  { name: "React", url: "https://reactjs.org/", icon: FaReact, color: "#61DAFB" },
+  { name: "Next.js", url: "https://nextjs.org/", icon: SiNextdotjs, color: "#FFFFFF" },
+  { name: "Laravel", url: "https://laravel.com/", icon: FaLaravel, color: "#FF2D20" },
+  { name: "Vue.js", url: "https://vuejs.org/", icon: FaVuejs, color: "#42B883" },
+  { name: "Tailwind", url: "https://tailwindcss.com/", icon: SiTailwindcss, color: "#06B6D4" },
+  { name: "TypeScript", url: "https://typescriptlang.org/", icon: SiTypescript, color: "#3178C6" },
+  { name: "JavaScript", url: "https://developer.mozilla.org/", icon: SiJavascript, color: "#F7DF1E" },
+  { name: "MongoDB", url: "https://www.mongodb.com/", icon: SiMongodb, color: "#47A248" },
+  { name: "Node.js", url: "https://nodejs.org/", icon: FaNodeJs, color: "#5FA04E" },
+  { name: "Express", url: "https://expressjs.com/", icon: SiExpress, color: "#FFFFFF" },
+  { name: "Vite", url: "https://vitejs.dev/", icon: SiVite, color: "#646CFF" },
+  { name: "Firebase", url: "https://firebase.google.com/", icon: SiFirebase, color: "#DD2C00" },
 ];
 
 const stats = [
@@ -65,6 +25,9 @@ const stats = [
   { label: "Repository", value: 45, suffix: "+" },
   { label: "Experience", value: 5, suffix: "+" },
 ];
+
+// Duplicate items for seamless loop
+const carouselItems = [...frameworks, ...frameworks];
 
 const Banner = () => {
   return (
@@ -132,7 +95,7 @@ const Banner = () => {
         </div>
 
         {/* Tech Skills */}
-        <div className="mb-6">
+        <div className="mb-4">
           <div className="ios-section-header flex items-center gap-3 mb-4">
             <div className="p-1.5 rounded-lg bg-ios-purple/15">
               <FaTerminal size={14} className="text-ios-purple" />
@@ -142,37 +105,33 @@ const Banner = () => {
           <p className="text-[13px] text-label-tertiary mt-3 mb-5 pl-1">Technologies I work with</p>
         </div>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid grid-cols-3 lg:grid-cols-5 gap-3"
-        >
-          {frameworks.map((fw, i) => (
-            <motion.a
-              key={i}
-              href={fw.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              variants={scaleIn(i * 0.04)}
-              className="tech-card group"
-              whileHover={{ y: -6 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            >
-              <div className="w-10 h-10 flex items-center justify-center mb-3 relative z-10 group-hover:scale-110 transition-transform duration-300">
-                <img
-                  src={fw.imagesUrl}
-                  alt={fw.name}
-                  className="max-h-full max-w-full object-contain opacity-65 group-hover:opacity-100 transition-opacity duration-300"
-                />
-              </div>
-              <span className="text-[11px] font-medium text-label-tertiary group-hover:text-white relative z-10 transition-colors duration-300">
-                {fw.name}
-              </span>
-            </motion.a>
-          ))}
-        </motion.div>
+        {/* Infinite Carousel */}
+        <div className="carousel-wrapper">
+          <div className="carousel-track">
+            {carouselItems.map((fw, i) => {
+              const Icon = fw.icon;
+              return (
+                <a
+                  key={i}
+                  href={fw.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="carousel-item group"
+                >
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center mb-2.5 transition-transform duration-300 group-hover:scale-110"
+                    style={{ background: `${fw.color}15` }}
+                  >
+                    <Icon size={22} style={{ color: fw.color }} />
+                  </div>
+                  <span className="text-[11px] font-medium text-label-tertiary group-hover:text-white transition-colors duration-300 whitespace-nowrap">
+                    {fw.name}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        </div>
       </motion.div>
     </section>
   );

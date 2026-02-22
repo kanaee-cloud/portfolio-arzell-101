@@ -76,12 +76,12 @@ const Chatbot = () => {
          style={{ background: '#1C1C1E', border: '1px solid rgba(255,255,255,0.08)' }}>
       {/* Header */}
       <div className="flex items-center gap-3 px-5 py-3 border-b border-white/[0.06]">
-        <div className="p-2 rounded-ios bg-ios-blue/15">
-          <LuSparkles size={18} className="text-ios-blue" />
+        <div className="p-2 rounded-full bg-ios-blue/15">
+          <img className="w-10 rounded-full object-cover" src="https://i.pinimg.com/736x/f6/2d/eb/f62deb95183ef30aab05b3dbdffac995.jpg" alt="icon" />
         </div>
         <div>
           <h1 className="text-[14px] font-semibold text-white tracking-tight">
-            AI Assistant
+            Ayasaka Meido
           </h1>
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 bg-ios-green rounded-full animate-pulse-soft" />
