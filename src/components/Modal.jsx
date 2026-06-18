@@ -1,20 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { IoMdClose } from "react-icons/io";
-import { BsArrowUpRight, BsBriefcase, BsCalendar3, BsGeoAlt, BsBuilding } from "react-icons/bs";
+import { BsArrowUpRight, BsBriefcase, BsCalendar3, BsGeoAlt, BsBuilding, BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import Badge from "./Badges/Badge";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Modal = ({ isOpen, onClose, data }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      setCurrentImageIndex(0);
     } else {
       document.body.style.overflow = "auto";
     }
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isOpen]);
+  }, [isOpen, data]);
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -26,7 +30,19 @@ const Modal = ({ isOpen, onClose, data }) => {
 
   if (!data) return null;
 
-  return (
+  const images = data.gallery && data.gallery.length > 0 ? data.gallery : (data.img ? [data.img] : []);
+
+  const handlePrevImage = (e) => {
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = (e) => {
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
         <motion.div
@@ -66,15 +82,15 @@ const Modal = ({ isOpen, onClose, data }) => {
 
             {/* Scrollable Content */}
             <div className="overflow-y-auto scroll-container max-h-[75vh] sm:max-h-[70vh]">
-              {/* Image */}
+              {/* Main Thumbnail */}
               {data.img && (
-                <div className="relative">
+                <div className="w-full relative overflow-hidden bg-black/10 border-b border-white/[0.06]">
                   <img
                     src={data.img}
-                    alt={data.name}
-                    className="w-full h-52 sm:h-56 object-cover"
+                    alt={`${data.name} thumbnail`}
+                    className="w-full h-52 sm:h-64 object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1C1C1E] via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1C1C1E] via-transparent to-transparent pointer-events-none" />
                 </div>
               )}
 
@@ -117,9 +133,63 @@ const Modal = ({ isOpen, onClose, data }) => {
                   </p>
                 )}
 
+                {/* Image Carousel (Gallery) */}
+                {images.length > 0 && (
+                  <div className="mt-6">
+                    <p className="text-[11px] text-label-tertiary font-medium uppercase tracking-wider mb-2">Project Gallery</p>
+                    <div className="relative group rounded-xl overflow-hidden bg-black/30 ring-1 ring-white/10">
+                      <div className="w-full relative flex items-center justify-center min-h-[250px] sm:min-h-[350px]">
+                        <AnimatePresence initial={false} mode="wait">
+                          <motion.img
+                            key={currentImageIndex}
+                            src={images[currentImageIndex]}
+                            alt={`${data.name} gallery image ${currentImageIndex + 1}`}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.3 }}
+                            className="w-full max-h-[50vh] object-contain"
+                          />
+                        </AnimatePresence>
+                      </div>
+                      
+                      {/* Carousel Controls */}
+                      {images.length > 1 && (
+                        <>
+                          <button
+                            onClick={handlePrevImage}
+                            className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/60"
+                          >
+                            <BsChevronLeft size={16} />
+                          </button>
+                          <button
+                            onClick={handleNextImage}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/60"
+                          >
+                            <BsChevronRight size={16} />
+                          </button>
+                          
+                          {/* Dots */}
+                          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 bg-black/40 backdrop-blur-md px-2 py-1.5 rounded-full">
+                            {images.map((_, idx) => (
+                              <button
+                                key={idx}
+                                onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(idx); }}
+                                className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                                  currentImageIndex === idx ? 'w-4 bg-white' : 'bg-white/50 hover:bg-white/80'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* Tech Badges */}
                 {data.frameworks && data.frameworks.length > 0 && (
-                  <div>
+                  <div className="pt-2">
                     <p className="text-[11px] text-label-tertiary font-medium uppercase tracking-wider mb-2">Technologies</p>
                     <div className="flex flex-wrap gap-1.5">
                       {data.frameworks.map((fw, i) => (
@@ -135,7 +205,7 @@ const Modal = ({ isOpen, onClose, data }) => {
                     href={data.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="ios-btn inline-flex items-center gap-2 mt-2"
+                    className="ios-btn inline-flex items-center gap-2 mt-4"
                   >
                     <BsArrowUpRight size={14} />
                     View Project
@@ -148,6 +218,10 @@ const Modal = ({ isOpen, onClose, data }) => {
       )}
     </AnimatePresence>
   );
+
+  // Render modal content as a portal attached directly to document body 
+  // to avoid being trapped inside the overflow scroll container.
+  return createPortal(modalContent, document.body);
 };
 
 export default Modal;

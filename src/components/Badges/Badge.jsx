@@ -19,6 +19,9 @@ import {
   SiGo,
   SiRabbitmq,
   SiLinux,
+  SiNestjs,
+  SiYolo,
+  SiSqlite,
 } from "react-icons/si";
 
 const frameworkMap = {
@@ -101,6 +104,22 @@ const frameworkMap = {
   Linux: {
     icon: <SiLinux size={12} />,
     color: "bg-[#FFD60A]/10 text-[#FFD60A] ring-[#FFD60A]/20",
+  },
+  NestJS: {
+    icon: <SiNestjs size={12} />,
+    color: "bg-[#E0234E]/10 text-[#E0234E] ring-[#E0234E]/20",
+  },
+  YOLOv8: {
+    icon: <SiYolo size={12} />,
+    color: "bg-[#00FFFF]/10 text-[#00FFFF] ring-[#00FFFF]/20",
+  },
+  Fiber: {
+    icon: <SiGo size={12} />,
+    color: "bg-[#52525B]/10 text-[#52525B] ring-[#52525B]/20",
+  },
+  SQLite: {
+    icon: <SiSqlite size={12} />,
+    color: "bg-[#003B57]/10 text-[#003B57] ring-[#003B57]/20",
   },
 };
 

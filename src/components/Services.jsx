@@ -8,21 +8,75 @@ import Modal from "./Modal";
 
 const services = [
   {
+    name: "Hioto - Smart Home Automation",
+    description:
+      "A comprehensive, full-stack Internet of Things (IoT) platform designed for home automation. It features a Go-based Microservice Worker (Backend) built with the Fiber framework and a cross-platform Flutter mobile application utilizing Stacked Architecture. The system leverages RabbitMQ for real-time device control and telemetry via MQTT, SQLite for high-speed local data persistence, and an embedded custom rules engine for automated device interactions based on sensory inputs.",
+    url: "https://lskk.co.id/hioto/",
+    periode: "2026",
+    img: "/assets/hioto.png",
+    gallery: ["/assets/hioto-1.png", "/assets/hioto-2.png", "/assets/hioto-3.png", "/assets/hioto-4.png"],
+    frameworks: [
+      "Golang",
+      "Fiber",
+      "Flutter",
+      "RabbitMQ",
+      "SQLite"
+    ],
+  },
+  {
+    name: "Smart Traffic CCTV Detection System",
+    description:
+      "A highly scalable, microservices-based Real-Time Traffic Computer Vision System designed for smart city infrastructure. This advanced project seamlessly orchestrates live CCTV video ingestion and processes it through a YOLOv8 object detection pipeline to identify vehicles and read license plates via ANPR. It features spatial-temporal deduplication to prevent double-counting and leverages a robust NestJS backend with RabbitMQ for event-driven processing, ultimately broadcasting real-time analytics and live monitoring feeds to a modern, interactive web dashboard.",
+    url: "#",
+    periode: "2026",
+    img: "/assets/traffic-cctv-1.png",
+    gallery: ["/assets/traffic-cctv-1.png", "/assets/traffic-cctv-2.png", "/assets/traffic-cctv-3.png"],
+    frameworks: [
+      "Python",
+      "Node.js",
+      "NestJS",
+      "React.js",
+      "YOLOv8",
+      "RabbitMQ",
+      "MongoDB"
+    ],
+  },
+  {
+    name: "Forest Monitoring Dashboard",
+    description:
+      "A modern, responsive web application serving as the frontend interface for a comprehensive Smart Farming and environmental monitoring ecosystem. Specifically tailored for wide-area outdoor forestry management, this dashboard empowers rangers and administrators to track real-time telemetry from weather stations and soil moisture sensors. It features interactive geospatial mapping, role-based access control, and an automation rules engine that can trigger outdoor actuators via MQTT, enabling proactive anomaly detection and rapid response to potential forest fires.",
+    url: "https://forestmonitoring.smartsystem.id/#/login",
+    periode: "2026",
+    img: "/assets/forestmon-1.jpg",
+    gallery: ["/assets/forestmon-1.jpg", "/assets/forestmon-2.png"],
+    frameworks: [
+      "React.js",
+      "NestJS",
+      "Vite",
+      "TypeScript",
+      "Tailwind",
+      "Zustand",
+      "React Query"
+    ],
+  },
+  {
     name: "Akuprim",
     description:
-      "Berkontribusi sebagai Front-end Developer pada pengembangan platform daring Akuprim yang menyederhanakan pembayaran pajak, membantu konsultan pajak menghemat waktu dan mengurangi risiko kesalahan.",
+      "Contributed as a Front-end Developer in building Akuprim, an innovative online platform designed to streamline and automate tax payment processes. This application significantly helps tax consultants save valuable time, organize client documents, and drastically reduce the risk of human error during complex tax calculations and submissions by providing a clean, intuitive, and highly responsive user interface.",
     url: "https://gitlab.com/teknikal/aku-prima.git",
-    periode: "Juli 2024 - Agustus 2024",
+    periode: "July 2024 - August 2024",
     img: "/assets/aku-prima.jpg",
+    gallery: ["/assets/aku-prima.jpg", "/assets/portfolio-img1.jpg", "/assets/portfolio-img2.jpg"],
     frameworks: ["Laravel", "MySQL", "Tailwind", "Font Awesome"],
   },
   {
     name: "Web Assessment",
     description:
-      "Membangun platform assessment daring untuk memfasilitasi proses rekrutmen karyawan dan identifikasi kandidat terbaik untuk perusahaan.",
+      "Developed a comprehensive online assessment platform aimed at modernizing and facilitating the corporate employee recruitment process. This system provides a secure environment for conducting various tests and evaluations, offering automated scoring and detailed analytical reports to assist HR departments in accurately identifying and selecting the most qualified candidates for their organizations.",
     url: "https://gitlab.com/teknikal/web-assessment.git",
-    periode: "Agustus 2024 - September 2024",
+    periode: "August 2024 - September 2024",
     img: "/assets/web-assessment.png",
+    gallery: ["/assets/web-assessment.png", "/assets/portfolio-img3.jpg"],
     frameworks: [
       "Laravel",
       "Bootstrap",
@@ -34,10 +88,11 @@ const services = [
   {
     name: "ORBIT",
     description:
-      "Bertanggung jawab atas pengembangan situs web LMS untuk eskul Orbit dari sisi Front-End, memastikan tampilan yang menarik, user-friendly, dan responsif.",
+      "Took full responsibility for the Front-End development of a Learning Management System (LMS) website for the ORBIT extracurricular program. Focused heavily on creating an engaging, user-friendly, and fully responsive educational platform that allows students to easily access learning materials, track their academic progress, and interact with dynamic content, ensuring a seamless learning experience across all devices.",
     url: "https://github.com/orbit4it/web-frontend.git",
-    periode: "Juni 2023 - September 2023",
+    periode: "June 2023 - September 2023",
     img: "/assets/orbit.jpg",
+    gallery: ["/assets/orbit.jpg", "/assets/portfolio-img1.jpg"],
     frameworks: [
       "Next.js",
       "TypeScript",
@@ -50,10 +105,11 @@ const services = [
   {
     name: "Deskify",
     description:
-      "Berkontribusi sebagai fullstack developer dalam proyek pembuatan website yang bertujuan menyediakan komponen dan tools laptop dalam bentuk package secara online. Terlibat dalam berbagai tahapan pengembangan untuk menghasilkan platform yang fungsional dan informatif bagi pengguna.",
+      "Contributed as a Full-Stack Developer on Deskify, an e-commerce web platform dedicated to providing curated laptop components and productivity tools packaged for online purchase. Actively involved in the entire software development lifecycle—from designing the database architecture and implementing secure API endpoints, to crafting a highly functional, informative, and visually appealing user interface that enhances the overall shopping experience.",
     url: "https://deskify-seven.vercel.app",
-    periode: "November 2024 - January 2024",
+    periode: "November 2023 - January 2024",
     img: "/assets/deskify.png",
+    gallery: ["/assets/deskify.png", "/assets/portfolio-img2.jpg", "/assets/portfolio-img3.jpg"],
     frameworks: [
       "React.js",
       "JavaScript",
@@ -65,10 +121,11 @@ const services = [
   {
     name: "SEA Catering",
     description:
-      "Membuat website SEA Catering yang menyediakan layanan catering untuk berbagai acara. Website ini dirancang untuk memberikan informasi lengkap tentang menu, harga, dan layanan yang ditawarkan.",
+      "Developed a dedicated business website for SEA Catering, a service provider catering to a wide variety of special events and corporate functions. The website was meticulously designed to present a comprehensive overview of their diverse menu offerings, transparent pricing structures, and customizable service packages, featuring a polished, appetizing aesthetic to attract potential clients and streamline their booking inquiries.",
     url: "https://seacatering-fe.vercel.app",
-    periode: "Juni 2025",
+    periode: "June 2025",
     img: "/assets/sea.png",
+    gallery: ["/assets/sea.png", "/assets/portfolio-img1.jpg"],
     frameworks: [
       "React.js",
       "TypeScript",
