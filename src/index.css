@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap');
 
 /* ═══════════════════════════════════════════
    iOS Dark Mode Portfolio — Global Styles
@@ -377,9 +377,10 @@
 @layer base {
   body {
     @apply font-primary text-base leading-7 text-white antialiased;
-    background: #000000;
+    background: #0a0608;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
   }
   .h2 {
     @apply font-secondary text-[28px] mb-6 tracking-tight font-semibold;
@@ -387,4 +388,37 @@
   .h3 {
     @apply font-secondary font-semibold text-[18px] mb-4 leading-[28px];
   }
+}
+
+/* ── macOS Window ── */
+.macos-window {
+  background: rgba(22, 22, 30, 0.97);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* ── macOS Scroll ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
 }

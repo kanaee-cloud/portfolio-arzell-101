@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { FaGithub, FaLinkedin, FaInstagram, FaYoutube } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 
-const WEB3FORMS_ACCESS_KEY = process.env.REACT_APP_WEB3FORMS_KEY;
+const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_KEY;
 
 const social = [
   {

@@ -11,8 +11,8 @@ const Chatbot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const apiKey = process.env.REACT_APP_GEMINI_API_KEY;
-  const basePrompt = process.env.REACT_APP_BASE_PROMPT || "";
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+  const basePrompt = import.meta.env.VITE_BASE_PROMPT || "";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

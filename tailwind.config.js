@@ -122,6 +122,24 @@ module.exports = {
         'ios-lg': '0 8px 30px rgba(0,0,0,0.4)',
         'ios-elevated': '0 4px 20px rgba(0,0,0,0.5)',
         'ios-glow': '0 0 30px rgba(10,132,255,0.15)',
+        'macos-window': '0 22px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08)',
+        'macos-dock': '0 8px 32px rgba(0,0,0,0.5)',
+      },
+      colors: {
+        ...{},
+        macos: {
+          traffic: {
+            red: '#FF5F57',
+            yellow: '#FFBD2E',
+            green: '#27C93F',
+          },
+          window: {
+            bg: '#16161e',
+            header: 'rgba(48,48,58,0.98)',
+          },
+          menubar: 'rgba(20,20,28,0.85)',
+          dock: 'rgba(30,30,40,0.55)',
+        },
       },
     },
   },
